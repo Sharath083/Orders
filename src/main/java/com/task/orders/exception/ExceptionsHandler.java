@@ -34,5 +34,11 @@ public class ExceptionsHandler {
         );
         return new ExceptionData(Constants.INVALID_INPUT_ID,Constants.INVALID_INPUT_MSG,error);
     }
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ExceptionData handleException(IllegalArgumentException ex){
+        return new ExceptionData(HttpStatus.BAD_REQUEST.toString(),ex.getMessage());
+    }
+
 
 }

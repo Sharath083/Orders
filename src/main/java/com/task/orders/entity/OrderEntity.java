@@ -18,16 +18,15 @@ import java.util.UUID;
 @Data
 public class OrderEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id",referencedColumnName = "id")
     private UserEntity userId;
 
-    private LocalDateTime orderedAt=LocalDateTime.now();
+    private LocalDateTime orderedAt;
 
-    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-    @JoinColumn(name = "order_id")
-    private List<OrderDetailsEntity> orderDetails;
+    private LocalDateTime updatedAt;
+
 }
+

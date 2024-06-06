@@ -38,6 +38,7 @@ public class RedisSessionAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
+        System.out.println("---------------- "+request.getInputStream().toString());
         String sessionId = request.getHeader("session-id");
         if (sessionId != null) {
             try {

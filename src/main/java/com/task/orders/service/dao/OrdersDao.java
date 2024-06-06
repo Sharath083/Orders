@@ -12,9 +12,12 @@ import java.util.UUID;
 
 @Service
 public interface OrdersDao {
-    BaseResponse createOrder(OrderEntity orderEntity) throws CommonException;
-    BaseResponse updateOrderDetails(UUID orderId, List<OrderDetailsEntity> orderDetails);
+
+    OrderEntity createOrder(OrderRequest order, UUID userId) throws CommonException;
+
+
     OrderEntity getOrderDetails(UUID orderId) throws CommonException;
+
     BaseResponse deleteOrderDetails(UUID orderId) throws CommonException;
-    OrderEntity updateOrder(String type, OrderRequest order) throws CommonException;
+
 }

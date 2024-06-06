@@ -1,10 +1,12 @@
 
 package com.task.orders.config;
 
+
 import com.task.orders.helpers.Constants;
 import com.task.orders.helpers.Crypto;
 import com.task.orders.redis.RedisHelper;
-import org.hibernate.proxy.pojo.bytebuddy.ByteBuddyInterceptor;
+
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

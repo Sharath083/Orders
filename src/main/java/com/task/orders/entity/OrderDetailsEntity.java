@@ -13,12 +13,14 @@ import java.util.UUID;
 @Data
 public class OrderDetailsEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-    @JoinColumn(name = "product_id",referencedColumnName = "id")
-    private ProductsEntity product;
+    private UUID orderUuid;
+
+    private UUID productId;
+
+    private String orderData;
 
     private int quantity;
 
