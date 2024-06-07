@@ -1,13 +1,12 @@
 package com.task.orders.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.w3c.dom.stylesheets.LinkStyle;
 
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -24,4 +23,16 @@ public class UserEntity {
     private String email;
     private String phone;
     private String gender;
+
+//    @ElementCollection
+//    private List<UserD> userDS;
+//
+//    @Data
+//    @AllArgsConstructor
+//    @NoArgsConstructor
+//    @Embeddable
+//    public static class UserD{
+//        private String name;
+//        private String password;
+//    }
 }

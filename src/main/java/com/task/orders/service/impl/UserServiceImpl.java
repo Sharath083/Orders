@@ -7,6 +7,7 @@ import com.task.orders.service.dao.UserServiceDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 @Service
 public class UserServiceImpl implements UserServiceDao {
@@ -14,6 +15,7 @@ public class UserServiceImpl implements UserServiceDao {
     private UserRepo userRepo;
     @Override
     public UserEntity userSignUp(UserData userData) {
+//        List<UserEntity.UserD> dd=List.of(new UserEntity.UserD(userData.getName(),userData.getPassword()));
         UserEntity userEntity = UserEntity.build(
                 UUID.randomUUID(),
                 userData.getName(),
@@ -22,6 +24,8 @@ public class UserServiceImpl implements UserServiceDao {
                 userData.getEmail(),
                 userData.getMobileNumber(),
                 userData.getGender()
+//                ,dd
+
         );
         return userRepo.save(userEntity);
     }

@@ -15,6 +15,7 @@ import com.task.orders.service.dao.OrdersDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -106,10 +107,12 @@ public class OrdersImpl implements OrdersDao {
         return data;
     }
 
+    @Transactional
     @Override
     public BaseResponse deleteOrderDetails(UUID orderId) throws CommonException {
         var data = getOrderDetails(orderId);
         if (data != null) {
+            orderItemsRepo.deleteByOrderUuid(orderId);
             orderRepository.deleteById(orderId);
         }
         return new BaseResponse("1",

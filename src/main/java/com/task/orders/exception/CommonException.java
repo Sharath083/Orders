@@ -11,20 +11,23 @@ import java.util.Map;
 @Getter
 @Setter
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class CommonException extends Exception {
+public class CommonException extends RuntimeException {
     private String infoId;
-
+    private String message;
+    private Map<String,String> error;
     public CommonException(String message, String infoId, Map<String, String> error) {
         super(message);
         this.infoId = infoId;
         this.error = error;
     }
 
-    private String message;
-    private Map<String,String> error;
-
+//    public CommonException(String infoId,String message) {
+//        super(message);
+//        this.infoId = infoId;
+//    }
     public CommonException(String infoId,String message) {
-        super(message);
         this.infoId = infoId;
+        this.message=message;
+
     }
 }

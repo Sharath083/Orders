@@ -2,6 +2,7 @@ package com.task.orders.exception;
 
 import com.task.orders.helpers.Constants;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -18,11 +19,19 @@ public class ExceptionsHandler {
 //        return new CommonException("111", ex.getCause().toString());
 //    }
 
-    @ExceptionHandler
+    @ExceptionHandler(CommonException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public CommonException handleException(CommonException ex){
-        return ex;
+    public ExceptionData handleException(CommonException ex){
 
+        System.out.println(ex.getMessage());
+        return new ExceptionData(ex.getInfoId(),ex.getMessage());
+    }
+
+    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ExceptionData handleException(HttpRequestMethodNotSupportedException ex){
+        System.out.println(ex.getMessage());
+        return new ExceptionData("00",ex.getMessage());
     }
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
