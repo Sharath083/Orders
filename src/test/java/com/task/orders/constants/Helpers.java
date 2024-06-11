@@ -7,10 +7,18 @@ import com.task.orders.dto.SessionData;
 import com.task.orders.entity.OrderDataEntity;
 import com.task.orders.entity.ProductsEntity;
 import com.task.orders.entity.UserEntity;
+import com.task.orders.thirdparty.request.ApiRequest;
 import org.mockito.MockitoAnnotations;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.test.web.client.MockRestServiceServer;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
+
+import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
+import static org.springframework.test.web.client.response.MockRestResponseCreators.withStatus;
 
 public class Helpers extends MockitoAnnotations {
     UserEntity user = new UserEntity();
@@ -61,4 +69,17 @@ public class Helpers extends MockitoAnnotations {
         return new SessionData(TestConstants.USER_ID,"a@gmail.com","a");
     }
 
+    public static void mockBuildUp(String url, String response, MockRestServiceServer mockServer){
+        mockServer.expect(requestTo(url))
+                .andRespond(withStatus(HttpStatus.OK).body(response));
+    }
+
+    public static ApiRequest apiRequest(
+            String url,HttpMethod method,HashMap<String, String> headers){
+        ApiRequest apiRequest = new ApiRequest();
+        apiRequest.setUrl(url);
+        apiRequest.setHttpMethod(method);
+        apiRequest.setHeaders(headers);
+        return apiRequest;
+    }
 }
