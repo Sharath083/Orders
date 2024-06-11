@@ -32,6 +32,6 @@ public class UserServiceImpl implements UserServiceDao {
 
     @Override
     public UserEntity userLogin(String email, String password) {
-        return userRepo.findByEmail(email);
+        return userRepo.findByEmailAndPassword(email,password);
     }
 }

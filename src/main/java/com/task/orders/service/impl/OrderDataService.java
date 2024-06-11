@@ -78,19 +78,22 @@ public class OrderDataService implements OrderDataInterface {
                 }).toList();
                 return response(data, ORDER_UPDATED_SUCCESSFULLY);
             } else {
-
-                throw new IllegalArgumentException(INVALID_REQUEST);
+                throw new CommonException(HttpStatus.BAD_REQUEST.toString(),INVALID_REQUEST +" : "+type);
             }
         } catch (IllegalArgumentException e) {
-            throw new CommonException(HttpStatus.BAD_REQUEST.toString(), e.getLocalizedMessage());
+            throw new CommonException(HttpStatus.BAD_REQUEST.toString(), e.getMessage());
         }
     }
 
     @Override
     public BaseResponse deleteOrderDetails(UUID orderId) throws CommonException {
-        orderDataRepo.deleteByOrderId(orderId);
-        return new BaseResponse("1",
-                orderId.toString() + " has Deleted Successfully");
+        if (orderDataRepo.deleteByOrderId(orderId)) {
+            return new BaseResponse(HttpStatus.OK.toString(),
+                    orderId.toString() + " has Deleted Successfully");
+        } else {
+            return new BaseResponse(HttpStatus.BAD_REQUEST.toString(), ORDER_NOT_FOUND);
+        }
+
     }
 
     @Transactional
@@ -99,12 +102,11 @@ public class OrderDataService implements OrderDataInterface {
         var orderId = orderData.getId();
         orderData.getOrderDetails().forEach(orderDetails -> {
                     var pData = orderDataRepo.findByOrderData(orderId + orderDetails.getProductId());
-            System.out.println(pData);
                     if (pData != null) {
                         orderDataRepo.delete(pData);
                     } else {
                         throw new CommonException(HttpStatus.BAD_REQUEST.toString(),
-                                "Product Id "+orderDetails.getProductId()+" not found for order");
+                                "Product Id " + orderDetails.getProductId() + " not found for order");
                     }
                 }
         );
@@ -114,9 +116,9 @@ public class OrderDataService implements OrderDataInterface {
     @Override
     public List<OrderResponse> getAllOrders(UUID userId) throws CommonException {
         List<OrderResponse> orders = new ArrayList<>();
-        Map<UUID, Pair<List<OrderData>, AtomicInteger>> orderMaps =new HashMap<>();
+        Map<UUID, Pair<List<OrderData>, AtomicInteger>> orderMaps = new HashMap<>();
         var data = orderDataRepo.findAllByUserId(userId);
-        if(data == null){
+        if (data.isEmpty()) {
             throw new CommonException(HttpStatus.OK.toString(), ORDER_NOT_FOUND);
         }
         for (OrderDataEntity orderData : data) {
@@ -177,13 +179,13 @@ public class OrderDataService implements OrderDataInterface {
     }
 
     @Override
-    public OrderResponse getOrder(UUID orderId){
-        AtomicInteger price=new AtomicInteger();
-        var data=orderDataRepo.findAllByOrderId(orderId);
-        if(data == null){
+    public OrderResponse getOrder(UUID orderId) {
+        AtomicInteger price = new AtomicInteger();
+        var data = orderDataRepo.findAllByOrderId(orderId);
+        if (data.isEmpty()) {
             throw new CommonException(HttpStatus.OK.toString(), ORDER_NOT_FOUND);
         }
-        var pData=data.stream().map(orderData -> {
+        var pData = data.stream().map(orderData -> {
                     price.addAndGet(orderData.getQuantity() * orderData.getProductId().getPrice());
                     return new OrderData(
                             orderData.getProductId().getId().toString(),
@@ -191,16 +193,16 @@ public class OrderDataService implements OrderDataInterface {
                             orderData.getQuantity());
                 }
         ).toList();
-        return new OrderResponse(orderId,pData,price.intValue());
+        return new OrderResponse(orderId, pData, price.intValue());
     }
 
-    private OrderDataEntity addOrUpdateHelper(OrderData orderData, String orderId, UUID userEntity) {
+    private OrderDataEntity addOrUpdateHelper(OrderData orderData, String orderId, UUID userId) {
         var pData = orderDataRepo.findByOrderData(orderId + orderData.getProductId());
         if (pData != null) {
             pData.setQuantity(pData.getQuantity() + orderData.getQuantity());
             return orderDataRepo.save(pData);
         } else {
-            return orderDataRepo.save(orderHelper(orderData, UUID.fromString(orderId), userEntity));
+            return orderDataRepo.save(orderHelper(orderData, UUID.fromString(orderId), userId));
         }
     }
 
@@ -212,19 +214,19 @@ public class OrderDataService implements OrderDataInterface {
                 pData.setQuantity(pData.getQuantity() - orderData.getQuantity());
                 return orderDataRepo.save(pData);
             } else if (pData.getQuantity() < orderData.getQuantity()) {
-                throw new IllegalArgumentException(QUANTITY_IS_OUT_OF_RANGE);
+                throw new CommonException(HttpStatus.BAD_REQUEST.toString(),QUANTITY_IS_OUT_OF_RANGE);
             }
             orderDataRepo.delete(pData);
             return pData;
         } else {
-            throw new IllegalArgumentException(ORDER_NOT_FOUND);
+            throw new CommonException(HttpStatus.BAD_REQUEST.toString(),ORDER_NOT_FOUND);
         }
     }
 
 
     private ProductsEntity isValidProduct(UUID productId) {
         return productsRepo.findById(productId).orElseThrow(
-                () -> new IllegalArgumentException(PRODUCT_NOT_FOUND));
+                () -> new CommonException(HttpStatus.BAD_REQUEST.toString(),PRODUCT_NOT_FOUND));
     }
 
     private <T> BaseResponse response(List<T> data, String message) {

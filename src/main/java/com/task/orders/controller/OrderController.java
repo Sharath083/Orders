@@ -41,12 +41,14 @@ public class OrderController {
     private OrderDetailsDao orderDetailsDao;
     @Autowired
     private OrderDataInterface orderDataInterface;
+    @Autowired
+    private RedisSessionAuthenticationFilter redisSessionAuthenticationFilter;
 
 
 
     @PostMapping
     public BaseResponse createOrder(@RequestBody OrderRequest order) throws CommonException {
-        String d=RedisSessionAuthenticationFilter.getUserData().getUserId();
+        String d=redisSessionAuthenticationFilter.getUserData().getUserId();
         final UUID userId= UUID.fromString(d);
         return orderDataInterface.createOrder(order,userId);
 //        return ordersService.createOrder(order,userId);
@@ -55,7 +57,7 @@ public class OrderController {
     @PostMapping("/update")
     public BaseResponse updateOrder(@RequestParam String type,@RequestBody OrderRequest order) throws CommonException {
 //        return orderDetailsDao.updateOrders(order,type);
-        String d=RedisSessionAuthenticationFilter.getUserData().getUserId();
+        String d=redisSessionAuthenticationFilter.getUserData().getUserId();
         final UUID userId= UUID.fromString(d);
         return orderDataInterface.updateOrders(order,type,userId);
 //        return new BaseResponse(HttpStatus.CREATED.toString(),"Order updated");
@@ -84,7 +86,7 @@ public class OrderController {
 
     @GetMapping("/summary")
     public ResponseEntity<List<OrderResponse>> getSummary() {
-        String d=RedisSessionAuthenticationFilter.getUserData().getUserId();
+        String d=redisSessionAuthenticationFilter.getUserData().getUserId();
         final UUID userId= UUID.fromString(d);
         return ResponseEntity.ok(orderDataInterface.getAllOrders(userId));
     }

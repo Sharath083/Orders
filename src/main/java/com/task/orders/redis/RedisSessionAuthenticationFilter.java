@@ -40,6 +40,7 @@ public class RedisSessionAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, @NotNull HttpServletResponse response, @NotNull FilterChain filterChain)
             throws ServletException, IOException {
         String sessionId = request.getHeader("session-id");
+        System.out.println("=============================================================="+sessionId);
         if (sessionId != null) {
             try {
                 sessionData = validateSession(sessionId);
@@ -81,7 +82,7 @@ public class RedisSessionAuthenticationFilter extends OncePerRequestFilter {
         }
     }
 
-    public static SessionData getUserData() {
+    public SessionData getUserData() {
         return sessionData;
     }
 }

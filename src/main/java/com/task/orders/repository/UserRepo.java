@@ -12,5 +12,8 @@ import java.util.UUID;
 public interface UserRepo extends JpaRepository<UserEntity, UUID> {
 //    @Query("select s from UserEntity s where email=:email, password=:password")
 //    UserEntity userLogin(@Param("email") String email, @Param("password") String password);
+    UserEntity findByEmailAndPassword(String email,String password);
+
     UserEntity findByEmail(String email);
 }
+

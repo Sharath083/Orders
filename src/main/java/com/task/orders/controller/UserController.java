@@ -27,7 +27,8 @@ public class UserController {
     private MyConfig myConfig;
     @Autowired
     private RedisHelper redisHelper;
-
+    @Autowired
+    private RedisSessionAuthenticationFilter redisSessionAuthenticationFilter;
     @PostMapping("/signup")
     public UserEntity signup(@RequestBody @Valid UserData userData){
         return userServiceDao.userSignUp(userData);
@@ -42,7 +43,7 @@ public class UserController {
     }
     @PostMapping("/logout")
     public BaseResponse logout(){
-        var userId=RedisSessionAuthenticationFilter.getUserData().getUserId();
+        var userId=redisSessionAuthenticationFilter.getUserData().getUserId();
         if(redisHelper.delete(Constants.REDIS_KEY+userId)){
             return new BaseResponse("1","Logout Successfully");
         }

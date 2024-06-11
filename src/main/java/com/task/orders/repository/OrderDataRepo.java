@@ -15,7 +15,7 @@ public interface OrderDataRepo extends JpaRepository<OrderDataEntity, UUID> {
 
     OrderDataEntity findByOrderId(UUID orderId);
 
-    void deleteByOrderId(UUID orderId);
+    boolean deleteByOrderId(UUID orderId);
 
 
     List<OrderDataEntity> findAllByUserId(UUID userId);
