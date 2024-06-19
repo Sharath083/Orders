@@ -37,9 +37,8 @@ public class ExceptionsHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ExceptionData handleException(MethodArgumentNotValidException ex){
         Map<String,String> error=new HashMap<>();
-        ex.getBindingResult().getFieldErrors().forEach(er->{
-                    error.put(er.getField(),er.getDefaultMessage());
-                }
+        ex.getBindingResult().getFieldErrors()
+                .forEach(er-> error.put(er.getField(),er.getDefaultMessage())
         );
         return new ExceptionData(Constants.INVALID_INPUT_ID,Constants.INVALID_INPUT_MSG,error);
     }

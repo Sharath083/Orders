@@ -21,7 +21,7 @@ import static com.task.orders.constants.TestConstants.TEST_URL;
 public class ThirdPartyServiceTest {
 
     @MockBean
-    private RestTemplate restTemplate=new RestTemplate();
+    private RestTemplate restTemplate;
 
     @InjectMocks
     private RestTemplateClient restTemplateClient;

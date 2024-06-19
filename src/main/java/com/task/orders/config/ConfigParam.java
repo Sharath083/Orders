@@ -22,4 +22,20 @@ public class ConfigParam {
     private String userId;
     @Value("${api.password}")
     private String password;
+    @Value("${twilio.account.sid}")
+    private String twilioId;
+    @Value("${twilio.auth.token}")
+    private String twilioToken;
+    @Value("${twilio.phone.number}")
+    private String twilioPhone;
+    @Value("${twilio.message}")
+    private String message;
+    @Value("${mail.host}")
+    private String emailHost;
+    @Value("${mail.port}")
+    private String emailPort;
+    @Value("${mail.username}")
+    private String emailUsername;
+    @Value("${mail.password}")
+    private String emailPassword;
 }

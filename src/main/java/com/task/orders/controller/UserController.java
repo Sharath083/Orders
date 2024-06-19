@@ -34,6 +34,7 @@ public class UserController {
         return userServiceDao.userSignUp(userData);
     }
     @PostMapping("/login")
+
     public HashMap<String,String> login(@RequestBody LoginReq loginReq){
         var data=userServiceDao.userLogin(loginReq.getEmail(),loginReq.getPassword());
         var token=myConfig.generateRedisToken(data.getId().toString(),data.getEmail(), data.getName());

@@ -40,6 +40,9 @@ public class RedisHelper {
     public void set(String key,String value){
         redisTemplate.opsForValue().set(key,value,60,TimeUnit.MINUTES);
     }
+    public void set(String key,String value,int timeout){
+        redisTemplate.opsForValue().set(key,value,timeout,TimeUnit.MINUTES);
+    }
 
     public boolean delete(String key){
         return redisTemplate.delete(key);

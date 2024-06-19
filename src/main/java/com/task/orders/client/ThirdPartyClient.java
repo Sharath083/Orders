@@ -3,6 +3,7 @@ package com.task.orders.client;
 import com.task.orders.config.ConfigParam;
 import com.task.orders.exception.CommonException;
 import com.task.orders.thirdparty.request.ApiRequest;
+import com.task.orders.thirdparty.response.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
@@ -28,7 +29,7 @@ public class ThirdPartyClient {
                 .build();
     }
 
-    public Mono<String> sendData(ApiRequest request) {
+    public Mono<ApiResponse> sendData(ApiRequest request) {
         try {
             return this.webClient
                     .method(request.getHttpMethod())
@@ -39,7 +40,7 @@ public class ThirdPartyClient {
 //                .body(Mono.just(request), ApiRequest.class)
 //                .bodyValue()
                     .retrieve()
-                    .bodyToMono(String.class);
+                    .bodyToMono(ApiResponse.class);
         }catch (Exception e){
             throw new CommonException("1",e.getMessage());
         }
