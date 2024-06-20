@@ -1,11 +1,11 @@
 package com.task.orders.entity;
 
 
+import com.task.orders.constants.TableConstants;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.context.annotation.EnableAspectJAutoProxy;
 
 import java.util.UUID;
 
@@ -23,7 +23,7 @@ public class OrderDataEntity {
     private UUID userId;
 
     @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-    @JoinColumn(name = "product_id",referencedColumnName = "id")
+    @JoinColumn(name = TableConstants.PRODUCT_ID,referencedColumnName = TableConstants.ID)
     private ProductsEntity productId;
 
     private String orderData;

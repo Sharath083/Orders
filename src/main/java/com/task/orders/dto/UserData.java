@@ -1,5 +1,6 @@
 package com.task.orders.dto;
 
+import com.task.orders.constants.Constants;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,20 +10,21 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserData {
-    @NotNull(message = "Name Should not be null")
+
+    @NotNull(message = Constants.NAME_SHOULD_NOT_BE_NULL)
     private String name;
     @NotNull
-    @Size(min = 5,message = "Password should be between  5 t0 8 characters",max = 16)
+    @Size(min = Constants.FIVE,message = Constants.PASSWORD_SIZE,max = Constants.SIXTEEN)
     private String password;
     @Email
     private String email;
-    @Min(value = 18,message = "Age must be between 18 t0 60")
-    @Max(value = 60,message = "Age must be between 18 to 60")
+    @Min(value = Constants.EIGHTEEN,message = Constants.AGE_LIMIT)
+    @Max(value = Constants.SIXTY,message = Constants.AGE_LIMIT)
     private int age;
-    @NotNull(message = "Gender field should not be null")
+    @NotNull(message = Constants.GENDER_MESSAGE)
     private String gender;
     @NotNull
-    @Pattern(regexp = "^\\d{10}$",message = "Invalid Mobile Number")
+    @Pattern(regexp = Constants.MOBILE_REG,message = Constants.INVALID_MOBILE_NUMBER)
     private String mobileNumber;
 
 }

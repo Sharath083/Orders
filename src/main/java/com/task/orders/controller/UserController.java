@@ -1,12 +1,12 @@
 package com.task.orders.controller;
 
 import com.task.orders.config.MyConfig;
+import com.task.orders.constants.ApiEndPoints;
 import com.task.orders.dto.BaseResponse;
 import com.task.orders.dto.LoginReq;
 import com.task.orders.dto.UserData;
 import com.task.orders.entity.UserEntity;
-import com.task.orders.helpers.Constants;
-import com.task.orders.redis.RedisHelper;
+import com.task.orders.constants.Constants;
 import com.task.orders.redis.RedisSessionAuthenticationFilter;
 import com.task.orders.service.dao.UserServiceDao;
 import jakarta.validation.Valid;
@@ -19,38 +19,34 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.HashMap;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping(ApiEndPoints.USER)
 public class UserController {
     @Autowired
-    private UserServiceDao userServiceDao;
+    UserServiceDao userServiceDao;
     @Autowired
-    private MyConfig myConfig;
+    MyConfig myConfig;
     @Autowired
-    private RedisHelper redisHelper;
-    @Autowired
-    private RedisSessionAuthenticationFilter redisSessionAuthenticationFilter;
-    @PostMapping("/signup")
-    public UserEntity signup(@RequestBody @Valid UserData userData){
+    RedisSessionAuthenticationFilter redisSessionAuthenticationFilter;
+
+    @PostMapping(ApiEndPoints.SIGNUP)
+    public UserEntity signup(@RequestBody @Valid UserData userData) {
         return userServiceDao.userSignUp(userData);
     }
-    @PostMapping("/login")
 
-    public HashMap<String,String> login(@RequestBody LoginReq loginReq){
-        var data=userServiceDao.userLogin(loginReq.getEmail(),loginReq.getPassword());
-        var token=myConfig.generateRedisToken(data.getId().toString(),data.getEmail(), data.getName());
-        HashMap<String,String> map=new HashMap<>();
-        map.put("token",token);
+    @PostMapping(ApiEndPoints.LOGIN)
+
+    public HashMap<String, String> login(@RequestBody LoginReq loginReq) {
+        var data = userServiceDao.userLogin(loginReq.getEmail(), loginReq.getPassword());
+        var token = myConfig.generateRedisToken(data.getId().toString(), data.getEmail(), data.getName());
+        HashMap<String, String> map = new HashMap<>();
+        map.put(Constants.TOKEN, token);
         return map;
     }
-    @PostMapping("/logout")
-    public BaseResponse logout(){
-        var userId=redisSessionAuthenticationFilter.getUserData().getUserId();
-        if(redisHelper.delete(Constants.REDIS_KEY+userId)){
-            return new BaseResponse("1","Logout Successfully");
-        }
-        return new BaseResponse("0","Logout Failed");
+
+    @PostMapping(ApiEndPoints.LOGOUT)
+    public BaseResponse logout() {
+        var userId = redisSessionAuthenticationFilter.getUserData().getUserId();
+        return userServiceDao.userLogout(userId);
     }
-
-
 }
 

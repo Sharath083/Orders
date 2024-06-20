@@ -1,4 +1,4 @@
-package com.task.orders.thirdparty.request;
+package com.task.orders.service.impl.thirdparty.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

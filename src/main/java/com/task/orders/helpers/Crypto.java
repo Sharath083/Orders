@@ -6,10 +6,10 @@ import java.util.Base64;
 
 @Component
 public class Crypto {
-    public String encrypt(String data){
+    public static String encrypt(String data){
         return Base64.getEncoder().encodeToString(data.getBytes());
     }
-    public String decrypt(String data){
+    public static String decrypt(String data){
         return new String(Base64.getDecoder().decode(data));
     }
 }

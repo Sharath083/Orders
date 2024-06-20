@@ -7,7 +7,7 @@ import com.task.orders.dto.SessionData;
 import com.task.orders.entity.OrderDataEntity;
 import com.task.orders.entity.ProductsEntity;
 import com.task.orders.entity.UserEntity;
-import com.task.orders.thirdparty.request.ApiRequest;
+import com.task.orders.service.impl.thirdparty.request.ApiRequest;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;

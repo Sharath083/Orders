@@ -1,10 +1,9 @@
 package com.task.orders.client;
 
-import com.task.orders.thirdparty.request.ApiRequest;
+import com.task.orders.service.impl.thirdparty.request.ApiRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 @Component

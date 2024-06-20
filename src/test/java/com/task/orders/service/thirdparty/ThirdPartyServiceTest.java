@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.task.orders.client.RestTemplateClient;
 import com.task.orders.constants.Helpers;
 import com.task.orders.constants.TestConstants;
-import com.task.orders.thirdparty.response.ApiResponse;
+import com.task.orders.service.impl.thirdparty.response.ApiResponse;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockitoAnnotations;

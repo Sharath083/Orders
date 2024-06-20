@@ -1,36 +1,31 @@
 package com.task.orders.controller;
 
 
-import com.task.orders.dto.BaseResponse;
+import com.task.orders.constants.ApiEndPoints;
+import com.task.orders.constants.Messages;
+import com.task.orders.constants.StatusCodes;
 import com.task.orders.exception.CommonException;
-import com.task.orders.thirdparty.ThirdPartyService;
-import com.task.orders.thirdparty.response.ApiResponse;
+import com.task.orders.service.impl.thirdparty.ThirdPartyService;
+import com.task.orders.service.impl.thirdparty.response.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import reactor.core.publisher.Mono;
 
-import java.io.IOException;
-import java.util.concurrent.atomic.AtomicReference;
+import static com.task.orders.constants.InfoId.INVALID_INPUT_ID;
 
 @RestController
-@RequestMapping("/thirdparty")
-public class ThirdParty {
+@RequestMapping(ApiEndPoints.THIRDPARTY)
+public class ThirdPartyController {
     @Autowired
-    private ThirdPartyService service;
+    ThirdPartyService service;
     @GetMapping()
-    public ApiResponse getResponse() throws IOException {
-        var s= service.thirdPartyMethod();
-//        BaseResponse response= new BaseResponse();
-        ApiResponse response=new ApiResponse();
-        response.setInfoId(HttpStatus.OK.toString());
-        response.setMessage("Fetched Data from api ");
-        response.setHead(s.getHead());
-        response.setBody(s.getBody());
-        return response;
-
+    public ApiResponse getResponse() {
+        try {
+            return service.thirdPartyMethod();
+        }catch(Exception e){
+            throw new CommonException(INVALID_INPUT_ID, Messages.UNABLE_TO_GET_DATA, StatusCodes.EMPTY);
+        }
 //        responseMono.subscribe(apiResponse -> {
 //            re.set(apiResponse);
 //
@@ -42,5 +37,4 @@ public class ThirdParty {
 //        });
 //        return re.get();
     }
-
 }

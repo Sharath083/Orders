@@ -2,8 +2,8 @@ package com.task.orders.helpers;
 
 import java.security.SecureRandom;
 
-import static com.task.orders.helpers.Constants.CHARACTERS;
-import static com.task.orders.helpers.Constants.OTP_LENGTH;
+import static com.task.orders.constants.Constants.CHARACTERS;
+import static com.task.orders.constants.Constants.OTP_LENGTH;
 
 public class HelperFunctions {
     public static String generateOtp() {

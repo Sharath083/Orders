@@ -1,41 +1,40 @@
 package com.task.orders.config;
 
+import com.task.orders.constants.Constants;
 import lombok.Getter;
 
-import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.stereotype.Component;
 
 @Configuration
 @Getter
 public class ConfigParam {
-    @Value("${api.url}")
+    @Value(Constants.API_URL)
     private String apiUrl;
-    @Value("${api.baseUrl}")
+    @Value(Constants.API_BASE_URL)
     private String baseUrl;
-    @Value("${api.key}")
+    @Value(Constants.API_KEY)
     private String key;
-    @Value("${api.requestCode}")
+    @Value(Constants.API_REQUEST_CODE)
     private String requestCode;
-    @Value("${api.UserId}")
+    @Value(Constants.API_USER_ID)
     private String userId;
-    @Value("${api.password}")
+    @Value(Constants.API_PASSWORD)
     private String password;
-    @Value("${twilio.account.sid}")
+    @Value(Constants.TWILIO_ACCOUNT_SID)
     private String twilioId;
-    @Value("${twilio.auth.token}")
+    @Value(Constants.TWILIO_AUTH_TOKEN)
     private String twilioToken;
-    @Value("${twilio.phone.number}")
+    @Value(Constants.TWILIO_PHONE_NUMBER)
     private String twilioPhone;
-    @Value("${twilio.message}")
+    @Value(Constants.TWILIO_MESSAGE)
     private String message;
-    @Value("${mail.host}")
+    @Value(Constants.MAIL_HOST)
     private String emailHost;
-    @Value("${mail.port}")
+    @Value(Constants.MAIL_PORT)
     private String emailPort;
-    @Value("${mail.username}")
+    @Value(Constants.MAIL_USERNAME)
     private String emailUsername;
-    @Value("${mail.password}")
+    @Value(Constants.MAIL_PASSWORD)
     private String emailPassword;
 }

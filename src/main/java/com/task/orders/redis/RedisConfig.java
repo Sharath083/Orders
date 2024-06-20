@@ -1,5 +1,6 @@
 package com.task.orders.redis;
 
+import com.task.orders.constants.Constants;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
@@ -8,11 +9,12 @@ import org.springframework.data.redis.serializer.JdkSerializationRedisSerializer
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 public class RedisConfig {
+
     @Bean
     public JedisConnectionFactory redisConnectionFactory() {
         RedisStandaloneConfiguration redisConfiguration = new RedisStandaloneConfiguration();
-        redisConfiguration.setHostName("localhost");
-        redisConfiguration.setPort(6379);
+        redisConfiguration.setHostName(Constants.REDIS_HOST_NAME);
+        redisConfiguration.setPort(Constants.REDIS_PORT);
         return new JedisConnectionFactory(redisConfiguration);
     }
     @Bean

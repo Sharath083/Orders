@@ -1,4 +1,4 @@
-package com.task.orders.thirdparty.response;
+package com.task.orders.service.impl.thirdparty.response;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;

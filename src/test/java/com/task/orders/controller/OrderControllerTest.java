@@ -1,12 +1,10 @@
 package com.task.orders.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.task.orders.constants.Helpers;
 import com.task.orders.constants.TestConstants;
 import com.task.orders.dto.BaseResponse;
 import com.task.orders.dto.OrderRequest;
-import com.task.orders.helpers.Constants;
 import com.task.orders.redis.RedisHelper;
 import com.task.orders.redis.RedisSessionAuthenticationFilter;
 import com.task.orders.repository.OrderDataRepo;
@@ -23,9 +21,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 import static org.mockito.Mockito.when;

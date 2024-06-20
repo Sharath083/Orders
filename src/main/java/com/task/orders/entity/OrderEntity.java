@@ -1,15 +1,12 @@
 package com.task.orders.entity;
 
-import com.task.orders.dto.BaseResponse;
+import com.task.orders.constants.TableConstants;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import org.apache.catalina.User;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -21,7 +18,7 @@ public class OrderEntity {
     private UUID id;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id",referencedColumnName = "id")
+    @JoinColumn(name = TableConstants.USER_ID,referencedColumnName = TableConstants.ID)
     private UserEntity userId;
 
     private LocalDateTime orderedAt;

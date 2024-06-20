@@ -1,8 +1,12 @@
 
 package com.task.orders.redis;
 
+import com.task.orders.constants.InfoId;
+import com.task.orders.constants.Messages;
+import com.task.orders.constants.StatusCodes;
 import com.task.orders.dto.SessionData;
-import com.task.orders.helpers.Constants;
+import com.task.orders.constants.Constants;
+import com.task.orders.exception.CommonException;
 import com.task.orders.helpers.Crypto;
 import com.task.orders.service.CustomService;
 import jakarta.servlet.FilterChain;
@@ -39,14 +43,13 @@ public class RedisSessionAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, @NotNull HttpServletResponse response, @NotNull FilterChain filterChain)
             throws ServletException, IOException {
-        String sessionId = request.getHeader("session-id");
-        System.out.println("=============================================================="+sessionId);
+        String sessionId = request.getHeader(Constants.SESSION_ID);
         if (sessionId != null) {
             try {
                 sessionData = validateSession(sessionId);
                 UserDetails userDetails = userService.loadUserByUsername(sessionData.getEmail());
                 if (!Objects.equals(userDetails.getUsername(), sessionData.getEmail())) {
-                    throw new AuthenticationException("Session is Invalid") {
+                    throw new AuthenticationException(Messages.SESSION_IS_INVALID) {
                     };
                 }
                 UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
@@ -54,8 +57,8 @@ public class RedisSessionAuthenticationFilter extends OncePerRequestFilter {
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             } catch (Exception e) {
-                throw new AuthenticationException(e.getMessage()) {
-                };
+                throw new CommonException(InfoId.INVALID_INPUT_ID,
+                        e.getMessage(), StatusCodes.UNAUTHORIZED);
             }
         }
         filterChain.doFilter(request, response);
@@ -63,22 +66,22 @@ public class RedisSessionAuthenticationFilter extends OncePerRequestFilter {
 
     private SessionData validateSession(String session) throws AuthenticationException {
         try {
-            String[] data = crypto.decrypt(session).split("//");
+            String[] data = Crypto.decrypt(session).split("//");
             String key = Constants.REDIS_KEY + data[0];
             System.out.println(data[0] + "=" + data[1]);
             String value = redisHelper.get(key);
             if (value == null) {
-                throw new AuthenticationException("Session Expired") {
-                };
+                throw new CommonException(InfoId.INVALID_INPUT_ID, Messages.SESSION_EXPIRED, StatusCodes.UNAUTHORIZED);
+
             } else if (value.equals(session)) {
                 return new SessionData(data[0], data[1], data[2]);
             } else {
-                throw new AuthenticationException("Invalid session key") {
-                };
+                throw new CommonException(InfoId.INVALID_INPUT_ID,
+                        Messages.INVALID_SESSION_KEY, StatusCodes.UNAUTHORIZED);
             }
         } catch (IllegalArgumentException e) {
-            throw new AuthenticationException("Invalid session key") {
-            };
+            throw new CommonException(InfoId.INVALID_INPUT_ID,
+                    e.getMessage(), StatusCodes.UNAUTHORIZED);
         }
     }
 

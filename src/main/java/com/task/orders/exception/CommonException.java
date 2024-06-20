@@ -14,6 +14,7 @@ import java.util.Map;
 public class CommonException extends RuntimeException {
     private String infoId;
     private String message;
+    private int statusCode;
     private Map<String,String> error;
     public CommonException(String message, String infoId, Map<String, String> error) {
         super(message);
@@ -21,13 +22,14 @@ public class CommonException extends RuntimeException {
         this.error = error;
     }
 
-//    public CommonException(String infoId,String message) {
-//        super(message);
-//        this.infoId = infoId;
-//    }
     public CommonException(String infoId,String message) {
         this.infoId = infoId;
         this.message=message;
+    }
 
+    public CommonException(String infoId,String message,int statusCode) {
+        this.infoId = infoId;
+        this.message=message;
+        this.statusCode=statusCode;
     }
 }

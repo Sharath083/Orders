@@ -19,6 +19,4 @@ public class ProductController {
     public List<ProductsEntity> addProduct(@RequestBody List<ProductsEntity> products){
         return productService.addProduct(products);
     }
-
-
 }

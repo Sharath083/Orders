@@ -2,7 +2,7 @@
 package com.task.orders.config;
 
 
-import com.task.orders.helpers.Constants;
+import com.task.orders.constants.Constants;
 import com.task.orders.helpers.Crypto;
 import com.task.orders.redis.RedisHelper;
 
@@ -25,11 +25,9 @@ import java.util.Properties;
 @Configuration
 public class MyConfig {
     @Autowired
-    private Crypto crypto;
+    RedisHelper redisHelper;
     @Autowired
-    private RedisHelper redisHelper;
-    @Autowired
-    private ConfigParam configParam;
+    ConfigParam configParam;
 
     @Bean
     public RestTemplate restTemplate() {
@@ -55,15 +53,14 @@ public class MyConfig {
 
         mailSender.setUsername(configParam.getEmailUsername());
         mailSender.setPassword(configParam.getEmailPassword());
-
         Properties props = mailSender.getJavaMailProperties();
-        props.put("mail.transport.protocol", "smtp");
-        props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.starttls.enable", "true");
-        props.put("mail.smtp.connectiontimeout", "5000");
-        props.put("mail.smtp.timeout", "5000");
-        props.put("mail.smtp.writetimeout", "5000");
-        props.put("mail.debug", "true");
+        props.put(Constants.MAIL_TRANSPORT_PROTOCOL, Constants.SMTP);
+        props.put(Constants.MAIL_SMTP_AUTH, Constants.TRUE);
+        props.put(Constants.MAIL_SMTP_STARTTLS_ENABLE, Constants.TRUE);
+        props.put(Constants.MAIL_SMTP_CONNECTIONTIMEOUT, Constants.TIMEOUT);
+        props.put(Constants.MAIL_SMTP_TIMEOUT, Constants.TIMEOUT);
+        props.put(Constants.MAIL_SMTP_WRITETIMEOUT, Constants.TIMEOUT);
+        props.put(Constants.MAIL_DEBUG, Constants.TRUE);
 
         return mailSender;
     }
@@ -73,7 +70,7 @@ public class MyConfig {
         return new SimpleMailMessage();
     }
     public String generateRedisToken(String id, String email,String name) {
-        var key=crypto.encrypt(id+"//"+email+"//"+name);
+        var key= Crypto.encrypt(id+"//"+email+"//"+name);
         redisHelper.set(Constants.REDIS_KEY+id,key);
         return key;
     }

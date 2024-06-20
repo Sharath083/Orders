@@ -1,7 +1,8 @@
 package com.task.orders.service.impl;
 
+import com.task.orders.constants.Messages;
+import com.task.orders.constants.StatusCodes;
 import com.task.orders.dto.BaseResponse;
-import com.task.orders.dto.OrderData;
 import com.task.orders.dto.OrderRequest;
 import com.task.orders.entity.OrderDetailsEntity;
 import com.task.orders.entity.OrderEntity;
@@ -13,26 +14,27 @@ import com.task.orders.repository.ProductsRepo;
 import com.task.orders.repository.UserRepo;
 import com.task.orders.service.dao.OrdersDao;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
+
+import static com.task.orders.constants.InfoId.INVALID_INPUT_ID;
+import static com.task.orders.constants.InfoId.VALID;
+import static com.task.orders.constants.Messages.ORDER_NOT_FOUND;
 
 @Service
 public class OrdersImpl implements OrdersDao {
     @Autowired
-    private OrderRepo orderRepository;
+    OrderRepo orderRepository;
     @Autowired
-    private ProductsRepo productsRepo;
+    ProductsRepo productsRepo;
     @Autowired
-    private UserRepo userRepo;
+    UserRepo userRepo;
     @Autowired
-    private OrderItemsRepo orderItemsRepo;
+    OrderItemsRepo orderItemsRepo;
 
     @Override
     public OrderEntity createOrder(OrderRequest order, UUID userId) throws CommonException {
@@ -43,6 +45,7 @@ public class OrdersImpl implements OrdersDao {
         orderEntity.setUpdatedAt(LocalDateTime.now());
         return orderRepository.save(orderEntity);
     }
+
     private OrderEntity orderHelper(OrderRequest order, UUID userId, UUID orderId) {
 
         OrderEntity orderEntity = new OrderEntity();
@@ -52,7 +55,7 @@ public class OrdersImpl implements OrdersDao {
                             UUID.fromString(orderData.getProductId()));
                     entity.setQuantity(orderData.getQuantity());
                     entity.setOrderUuid(orderId);
-                    entity.setOrderData( orderId.toString()+orderData.getProductId());
+                    entity.setOrderData(orderId.toString() + orderData.getProductId());
                     return entity;
                 }
         ).toList();
@@ -60,7 +63,7 @@ public class OrdersImpl implements OrdersDao {
         orderItemsRepo.saveAll(orderDetails);
 
         UserEntity userEntity = userRepo.findById(userId)
-                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+                .orElseThrow(() -> new IllegalArgumentException(Messages.USER_NOT_FOUND));
         orderEntity.setUserId(userEntity);
         return orderEntity;
     }
@@ -102,7 +105,8 @@ public class OrdersImpl implements OrdersDao {
     public OrderEntity getOrderDetails(UUID orderId) throws CommonException {
         var data = orderRepository.findById(orderId).orElse(null);
         if (data == null) {
-            throw new CommonException("0", "Unable to find Order");
+            throw new CommonException(INVALID_INPUT_ID,
+                    ORDER_NOT_FOUND, StatusCodes.EMPTY);
         }
         return data;
     }
@@ -115,8 +119,7 @@ public class OrdersImpl implements OrdersDao {
             orderItemsRepo.deleteByOrderUuid(orderId);
             orderRepository.deleteById(orderId);
         }
-        return new BaseResponse("1",
-                orderId.toString() + "is Deleted");
+        return new BaseResponse(VALID, orderId.toString() + Messages.ORDER_IS_DELETED);
     }
 
 //    @Override
@@ -133,8 +136,6 @@ public class OrdersImpl implements OrdersDao {
 //            return orderRepository.save(orderEntity);
 //
 //    }
-
-
 
 
 //    @Override

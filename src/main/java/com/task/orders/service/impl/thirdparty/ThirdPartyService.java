@@ -1,18 +1,20 @@
-package com.task.orders.thirdparty;
+package com.task.orders.service.impl.thirdparty;
 
 import com.task.orders.client.ResponseHandler;
 import com.task.orders.client.RestTemplateClient;
 import com.task.orders.client.ThirdPartyClient;
 import com.task.orders.config.ConfigParam;
-import com.task.orders.thirdparty.request.ApiRequest;
-import com.task.orders.thirdparty.response.ApiResponse;
+import com.task.orders.service.impl.thirdparty.request.ApiRequest;
+import com.task.orders.service.impl.thirdparty.response.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import reactor.core.publisher.Mono;
 
 import java.io.IOException;
 import java.util.HashMap;
+
+import static com.task.orders.constants.Messages.FETCHED_DATA_FROM_API;
 
 @Service
 public class ThirdPartyService {
@@ -23,10 +25,10 @@ public class ThirdPartyService {
     @Autowired
     private ThirdPartyClient thirdPartyClient;
     @Autowired
-    private ConfigParam configParam;
+    ConfigParam configParam;
 
     @Autowired
-    private ResponseHandler responseHandler;
+    ResponseHandler responseHandler;
 
     @Autowired
     private RestTemplateClient client;
@@ -38,7 +40,10 @@ public class ThirdPartyService {
         headers.put(PASSWORD, configParam.getPassword());
         String url= configParam.getBaseUrl()+configParam.getApiUrl();
         var response=client.sendRequest(new ApiRequest(HttpMethod.GET,headers,url));
-        return responseHandler.mapResponse(response, ApiResponse.class);
+        var data= responseHandler.mapResponse(response, ApiResponse.class);
+        data.setInfoId(HttpStatus.OK.toString());
+        data.setMessage(FETCHED_DATA_FROM_API);
+        return data;
 //        return responseHandler.mapResponse(s.toString(),ApiResponse.class);
     }
 }
