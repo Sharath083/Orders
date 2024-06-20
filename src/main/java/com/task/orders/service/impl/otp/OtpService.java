@@ -36,29 +36,31 @@ public class OtpService {
     @Autowired
     MyConfig myConfig;
 
-    private String otp = HelperFunctions.generateOtp();
+
 
     public BaseResponse sendOtp(UUID userId) {
         try {
+            String otp = HelperFunctions.generateOtp();
             myConfig.twilioConnect(configParam.getTwilioId(), configParam.getTwilioToken());
             String msg = configParam.getMessage().replace("?", otp);
             UserEntity userEntity = userRepo.findById(userId).orElse(null);
             String phoneNumber = userEntity.getPhone();
-            System.out.println(configParam.getTwilioPhone());
             MessageCreator creator = Message.creator(
                     new PhoneNumber(CODE + Crypto.decrypt(phoneNumber)),
                     new PhoneNumber(configParam.getTwilioPhone()),
                     msg
             );
             creator.create();
-            storeOtp(userId);
-            return new BaseResponse(VALID, Messages.OTP_SENT_SUCCESSFULLY + creator.create().getTo());
+            storeOtp(userId,otp);
+            return new BaseResponse(VALID,
+                    Messages.OTP_SENT_SUCCESSFULLY +
+                            HelperFunctions.maskMobile(creator.create().getTo()));
         } catch (ApiException e) {
             throw new CommonException(INVALID_INPUT_ID, Messages.UNABLE_TO_SEND_OTP, StatusCodes.SUCCESS);
         }
     }
 
-    private void storeOtp(UUID userId) {
+    private void storeOtp(UUID userId,String otp) {
         redisHelper.set(OTP_REDIS_KEY + userId, otp, 5);
     }
 

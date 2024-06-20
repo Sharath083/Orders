@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @Getter
 public class ConfigParam {
+
     @Value(Constants.API_URL)
     private String apiUrl;
     @Value(Constants.API_BASE_URL)
@@ -37,4 +38,5 @@ public class ConfigParam {
     private String emailUsername;
     @Value(Constants.MAIL_PASSWORD)
     private String emailPassword;
+
 }

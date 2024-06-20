@@ -38,14 +38,14 @@ public class EmailGenerator {
     @Autowired
     PdfGenerator pdfGenerator;
 
-    public BaseResponse generateEmail(String mail, UUID userId) {
+    public BaseResponse generateEmail(String mail, UUID userId,String userName) {
         try {
             MimeMessage message = mailSender.createMimeMessage();
             MimeMessageHelper messageHelper = new MimeMessageHelper(message, true);
             messageHelper.setTo(mail);
             messageHelper.setSubject(ORDER_DETAILS);
             messageHelper.setText(Messages.ORDER_MAIL_SUBJECT);
-            pdfGenerator.generatePdf(userId);
+            pdfGenerator.generatePdf(userId,userName);
             FileSystemResource file = new FileSystemResource(new File(ORDERS_PATHNAME));
             messageHelper.addAttachment(ORDERS_PDF, file);
 

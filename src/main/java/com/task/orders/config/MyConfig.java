@@ -3,7 +3,6 @@ package com.task.orders.config;
 
 
 import com.task.orders.constants.Constants;
-import com.task.orders.helpers.Crypto;
 import com.task.orders.redis.RedisHelper;
 
 
@@ -25,6 +24,7 @@ import java.util.Properties;
 @Configuration
 public class MyConfig {
     @Autowired
+    public
     RedisHelper redisHelper;
     @Autowired
     ConfigParam configParam;
@@ -69,14 +69,9 @@ public class MyConfig {
     public SimpleMailMessage mailSender(){
         return new SimpleMailMessage();
     }
-    public String generateRedisToken(String id, String email,String name) {
-        var key= Crypto.encrypt(id+"//"+email+"//"+name);
-        redisHelper.set(Constants.REDIS_KEY+id,key);
-        return key;
-    }
 
     //otp twilio client
-        public void twilioConnect(String id,String token){
+    public void twilioConnect(String id,String token){
         Twilio.init(id,token);
     }
 }

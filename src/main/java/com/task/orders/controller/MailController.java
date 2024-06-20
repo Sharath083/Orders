@@ -22,7 +22,7 @@ public class MailController {
     public ResponseEntity<BaseResponse> sampleMail() {
         var data = redisSessionAuthenticationFilter.getUserData();
         return ResponseEntity.ok(emailGenerator.generateEmail(
-                data.getEmail(), UUID.fromString(data.getUserId())));
+                data.getEmail(), UUID.fromString(data.getUserId()),data.getName()));
     }
 
     @GetMapping(ApiEndPoints.OTP)

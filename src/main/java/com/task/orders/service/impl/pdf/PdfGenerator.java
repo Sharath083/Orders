@@ -30,17 +30,22 @@ public class PdfGenerator {
     OrderDataService orderDataService;
 
 
-    public void generatePdf(UUID userId) throws FileNotFoundException, MalformedURLException {
+    public void generatePdf(UUID userId,String userName) throws FileNotFoundException, MalformedURLException {
         PdfWriter writer = new PdfWriter(new File(Constants.PATH, Constants.ORDERS_PDF));
         PdfDocument pdfDocument = new PdfDocument(writer);
         Document document = new Document(pdfDocument);
-        document.add(new Paragraph(Constants.MAIL_Message));
+
+        document.add(new Paragraph(Constants.MAIL_Message.replace("User",userName)));
+
         float[] pointColumnWidths = {250F, 150F, 150F};
         Table table = new Table(pointColumnWidths);
+
         table.addCell(new Cell().add(new Paragraph(Constants.ORDER_ID_COLUMN)));
         table.addCell(new Cell().add(new Paragraph(Constants.PRODUCTS_COLUMN)));
         table.addCell(new Cell().add(new Paragraph(Constants.TOTAL_PRICE_COLUMN)));
+
         var data=orderDataService.getAllOrders(userId);
+
         data.forEach(
                 order -> {
                     table.addCell(order.getOrderId().toString());
@@ -54,6 +59,7 @@ public class PdfGenerator {
         document.add(image);
         document.close();
     }
+
     private String appender(List<OrderData> data){
         StringBuilder sb = new StringBuilder();
         AtomicInteger i= new AtomicInteger();
@@ -67,6 +73,4 @@ public class PdfGenerator {
         );
         return sb.toString();
     }
-
-
 }

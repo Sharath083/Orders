@@ -7,6 +7,7 @@ import com.task.orders.dto.LoginReq;
 import com.task.orders.dto.UserData;
 import com.task.orders.entity.UserEntity;
 import com.task.orders.constants.Constants;
+import com.task.orders.helpers.HelperFunctions;
 import com.task.orders.redis.RedisSessionAuthenticationFilter;
 import com.task.orders.service.dao.UserServiceDao;
 import jakarta.validation.Valid;
@@ -37,7 +38,7 @@ public class UserController {
 
     public HashMap<String, String> login(@RequestBody LoginReq loginReq) {
         var data = userServiceDao.userLogin(loginReq.getEmail(), loginReq.getPassword());
-        var token = myConfig.generateRedisToken(data.getId().toString(), data.getEmail(), data.getName());
+        var token = HelperFunctions.generateRedisToken(data.getId().toString(), data.getEmail(), data.getName(), myConfig.redisHelper);
         HashMap<String, String> map = new HashMap<>();
         map.put(Constants.TOKEN, token);
         return map;

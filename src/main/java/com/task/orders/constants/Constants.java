@@ -52,16 +52,21 @@ public class Constants {
     public static final String REDIS_HOST_NAME = "localhost";
     public static final int REDIS_PORT = 6379;
     public static final String SESSION_ID = "session-id";
+
     public static final String MAIL_Message = "Hi User,\n" +
             "Please find your order details below. ";
+
     public static final String NAME_SHOULD_NOT_BE_NULL = "Name Should not be null";
     public static final String PASSWORD_SIZE = "Password should be between  5 t0 8 characters";
     public static final String AGE_LIMIT = "Age must be between 18 t0 60";
     public static final String GENDER_MESSAGE = "Gender field should not be null";
     public static final String MOBILE_REG = "^\\d{10}$";
     public static final String INVALID_MOBILE_NUMBER = "Invalid Mobile Number";
+
     public static final int FIVE = 5;
     public static final int SIXTEEN = 16;
     public static final int EIGHTEEN = 18;
     public static final int SIXTY = 60;
+    public static final int TEN = 10;
+    public static final String MASK = "XXXXXX";
 }

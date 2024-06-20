@@ -15,7 +15,7 @@ public class RedisHelper {
     @Autowired
     private RedisTemplate redisTemplate;
     @Autowired
-    private Crypto crypto;
+    public Crypto crypto;
 
     public <T> T save(String key, int id, T value) {
         redisTemplate.<String, String>opsForHash()
