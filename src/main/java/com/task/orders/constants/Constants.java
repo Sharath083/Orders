@@ -39,6 +39,8 @@ public class Constants {
     public static final String MAIL_PORT = "${mail.port}";
     public static final String MAIL_USERNAME = "${mail.username}";
     public static final String MAIL_PASSWORD = "${mail.password}";
+    public static final String FRONTEND_ENDPOINT = "${frontend.endpoint}";
+
     public static final String MAIL_TRANSPORT_PROTOCOL = "mail.transport.protocol";
     public static final String MAIL_SMTP_AUTH = "mail.smtp.auth";
     public static final String MAIL_SMTP_STARTTLS_ENABLE = "mail.smtp.starttls.enable";
@@ -69,4 +71,5 @@ public class Constants {
     public static final int SIXTY = 60;
     public static final int TEN = 10;
     public static final String MASK = "XXXXXX";
+
 }

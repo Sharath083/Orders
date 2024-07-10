@@ -34,6 +34,10 @@ public class MyConfig {
         return new RestTemplate();
     }
 
+//    @Bean
+//    public SimpleCORSFilter filter() {
+//        return new SimpleCORSFilter();
+//    }
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();

@@ -8,6 +8,7 @@ import com.task.orders.exception.CommonException;
 import com.task.orders.service.impl.thirdparty.ThirdPartyService;
 import com.task.orders.service.impl.thirdparty.response.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,6 +17,7 @@ import static com.task.orders.constants.InfoId.INVALID_INPUT_ID;
 
 @RestController
 @RequestMapping(ApiEndPoints.THIRDPARTY)
+@CrossOrigin(origins = "https://calm-kringle-dbfd63.netlify.app")
 public class ThirdPartyController {
     @Autowired
     ThirdPartyService service;

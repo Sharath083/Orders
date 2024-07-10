@@ -1,6 +1,8 @@
 package com.task.orders.controller;
 
+import com.task.orders.config.ConfigParam;
 import com.task.orders.config.MyConfig;
+import com.task.orders.config.SecurityConfig;
 import com.task.orders.constants.ApiEndPoints;
 import com.task.orders.dto.BaseResponse;
 import com.task.orders.dto.LoginReq;
@@ -12,16 +14,21 @@ import com.task.orders.redis.RedisSessionAuthenticationFilter;
 import com.task.orders.service.dao.UserServiceDao;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 
+
+
+
 @RestController
 @RequestMapping(ApiEndPoints.USER)
+@CrossOrigin(origins = "https://calm-kringle-dbfd63.netlify.app")
 public class UserController {
+
+    @Autowired
+    private ConfigParam configParam;
     @Autowired
     UserServiceDao userServiceDao;
     @Autowired
@@ -33,6 +40,8 @@ public class UserController {
     public UserEntity signup(@RequestBody @Valid UserData userData) {
         return userServiceDao.userSignUp(userData);
     }
+
+
 
     @PostMapping(ApiEndPoints.LOGIN)
 

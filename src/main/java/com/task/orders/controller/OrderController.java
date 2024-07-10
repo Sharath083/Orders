@@ -22,6 +22,8 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping(ApiEndPoints.ORDER)
+@CrossOrigin(origins = "https://calm-kringle-dbfd63.netlify.app")
+
 public class OrderController {
     @Autowired
     OrdersDao ordersService;

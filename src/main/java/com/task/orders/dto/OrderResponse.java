@@ -17,10 +17,16 @@ public class OrderResponse extends BaseResponse {
     private UUID orderId;
     private List<OrderData> products;
     private int totalPrice;
+    private String s;
 
     public OrderResponse(UUID orderId,List<OrderData> value) {
         this.orderId = orderId;
         this.products = value;
+    }
+    public OrderResponse(UUID orderId,List<OrderData> value,int totalPrice) {
+        this.orderId = orderId;
+        this.products = value;
+        this.totalPrice = totalPrice;
     }
 }
 

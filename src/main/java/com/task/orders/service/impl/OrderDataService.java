@@ -144,7 +144,7 @@ public class OrderDataService implements OrderDataInterface {
         for (Map.Entry<UUID, Pair<List<OrderData>, AtomicInteger>> entry : orderMaps.entrySet()) {
             orders.add(new OrderResponse(entry.getKey(),
                     entry.getValue().getFirst(),
-                    entry.getValue().getSecond().intValue()));
+                    entry.getValue().getSecond().intValue(),null));
         }
 //        Map<UUID, List<OrderData>> orderMap = data.stream()
 //                .collect(Collectors.groupingBy(
