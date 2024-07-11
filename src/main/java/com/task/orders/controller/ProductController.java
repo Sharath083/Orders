@@ -9,7 +9,6 @@ import java.util.List;
 
 @RequestMapping("/product")
 @RestController
-@CrossOrigin(origins = "https://calm-kringle-dbfd63.netlify.app")
 
 public class ProductController {
     @Autowired

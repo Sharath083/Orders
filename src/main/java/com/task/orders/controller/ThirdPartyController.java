@@ -17,7 +17,6 @@ import static com.task.orders.constants.InfoId.INVALID_INPUT_ID;
 
 @RestController
 @RequestMapping(ApiEndPoints.THIRDPARTY)
-@CrossOrigin(origins = "https://calm-kringle-dbfd63.netlify.app")
 public class ThirdPartyController {
     @Autowired
     ThirdPartyService service;

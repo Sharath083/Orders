@@ -12,7 +12,6 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping(ApiEndPoints.MAIL)
-@CrossOrigin(origins = "https://calm-kringle-dbfd63.netlify.app")
 
 public class MailController {
     @Autowired

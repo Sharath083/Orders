@@ -11,7 +11,6 @@ import org.springframework.context.annotation.Configuration;
 public class ConfigParam {
 
 
-
     @Value(Constants.API_URL)
     private String apiUrl;
     @Value(Constants.API_BASE_URL)
@@ -42,4 +41,13 @@ public class ConfigParam {
     private String emailPassword;
     @Value(Constants.FRONTEND_ENDPOINT)
     private String frontendEndpoint;
+
+    @Value(Constants.REDIS_HOST)
+    private String redisHost;
+    @Value(Constants.REDIS_PORT)
+    private int redisPort;
+    @Value(Constants.REDIS_UNAME)
+    private String redisUName;
+    @Value(Constants.REDIS_PASSWORD)
+    private String redisPassword;
 }

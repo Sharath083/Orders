@@ -24,7 +24,6 @@ import java.util.HashMap;
 
 @RestController
 @RequestMapping(ApiEndPoints.USER)
-@CrossOrigin(origins = "https://calm-kringle-dbfd63.netlify.app")
 public class UserController {
 
     @Autowired

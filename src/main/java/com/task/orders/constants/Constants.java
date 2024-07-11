@@ -41,6 +41,8 @@ public class Constants {
     public static final String MAIL_PASSWORD = "${mail.password}";
     public static final String FRONTEND_ENDPOINT = "${frontend.endpoint}";
 
+
+
     public static final String MAIL_TRANSPORT_PROTOCOL = "mail.transport.protocol";
     public static final String MAIL_SMTP_AUTH = "mail.smtp.auth";
     public static final String MAIL_SMTP_STARTTLS_ENABLE = "mail.smtp.starttls.enable";
@@ -51,8 +53,6 @@ public class Constants {
     public static final String SMTP = "smtp";
     public static final String TRUE = "true";
     public static final String TIMEOUT = "5000";
-    public static final String REDIS_HOST_NAME = "localhost";
-    public static final int REDIS_PORT = 6379;
     public static final String SESSION_ID = "session-id";
 
     public static final String MAIL_Message = "Hi User,\n" +
@@ -72,4 +72,8 @@ public class Constants {
     public static final int TEN = 10;
     public static final String MASK = "XXXXXX";
 
+    public static final String REDIS_HOST = "${redis.host}";
+    public static final String REDIS_PORT = "${redis.port}";
+    public static final String REDIS_UNAME = "${redis.user.name}";
+    public static final String REDIS_PASSWORD = "${redis.password}";
 }
