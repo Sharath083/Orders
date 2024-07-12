@@ -45,6 +45,8 @@ public class UserController {
     @PostMapping(ApiEndPoints.LOGIN)
 
     public HashMap<String, String> login(@RequestBody LoginReq loginReq) {
+
+
         var data = userServiceDao.userLogin(loginReq.getEmail(), loginReq.getPassword());
         var token = HelperFunctions.generateRedisToken(data.getId().toString(), data.getEmail(), data.getName(), myConfig.redisHelper);
         HashMap<String, String> map = new HashMap<>();

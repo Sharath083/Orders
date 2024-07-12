@@ -42,12 +42,12 @@ public class ConfigParam {
     @Value(Constants.FRONTEND_ENDPOINT)
     private String frontendEndpoint;
 
-    @Value(Constants.REDIS_HOST)
-    private String redisHost;
-    @Value(Constants.REDIS_PORT)
-    private int redisPort;
-    @Value(Constants.REDIS_UNAME)
-    private String redisUName;
-    @Value(Constants.REDIS_PASSWORD)
-    private String redisPassword;
+//    @Value(Constants.REDIS_HOST)
+//    private String redisHost;
+//    @Value(Constants.REDIS_PORT)
+//    private int redisPort;
+//    @Value(Constants.REDIS_UNAME)
+//    private String redisUName;
+//    @Value(Constants.REDIS_PASSWORD)
+//    private String redisPassword;
 }

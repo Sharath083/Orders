@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit;
 public class RedisHelper {
     Gson gson =new Gson();
     @Autowired
-    private RedisTemplate redisTemplate;
+    private RedisTemplate<String, String> redisTemplate;
     @Autowired
     public Crypto crypto;
 
