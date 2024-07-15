@@ -14,7 +14,7 @@ import com.task.orders.redis.RedisSessionAuthenticationFilter;
 import com.task.orders.service.dao.UserServiceDao;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
+
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -26,6 +26,8 @@ import java.util.HashMap;
 @RequestMapping(ApiEndPoints.USER)
 public class UserController {
 
+    @Autowired
+    HelperFunctions helperFunctions;
     @Autowired
     private ConfigParam configParam;
     @Autowired
@@ -46,9 +48,11 @@ public class UserController {
 
     public HashMap<String, String> login(@RequestBody LoginReq loginReq) {
 
-
         var data = userServiceDao.userLogin(loginReq.getEmail(), loginReq.getPassword());
-        var token = HelperFunctions.generateRedisToken(data.getId().toString(), data.getEmail(), data.getName(), myConfig.redisHelper);
+//        var token = HelperFunctions.generateRedisToken(data.getId().toString(), data.getEmail(), data.getName(), myConfig.redisHelper);
+//        var token = helperFunctions.generateJWTToken(loginReq.getEmail(), loginReq.getPassword());
+        var token = helperFunctions.generateJWTToken(data);
+
         HashMap<String, String> map = new HashMap<>();
         map.put(Constants.TOKEN, token);
         return map;

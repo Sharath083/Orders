@@ -16,4 +16,5 @@ public class ProductsEntity {
     private UUID id;
     private String name;
     private int price;
+    private String imgUrl=null;
 }

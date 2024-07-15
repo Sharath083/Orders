@@ -68,7 +68,6 @@ public class RedisSessionAuthenticationFilter extends OncePerRequestFilter {
         try {
             String[] data = Crypto.decrypt(session).split("//");
             String key = Constants.REDIS_KEY + data[0];
-            System.out.println(data[0] + "=" + data[1]);
             String value = redisHelper.get(key);
             if (value == null) {
                 throw new CommonException(InfoId.INVALID_INPUT_ID, Messages.SESSION_EXPIRED, StatusCodes.UNAUTHORIZED);

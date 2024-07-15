@@ -9,7 +9,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+
 
 @Configuration
 @EnableWebSecurity
@@ -23,22 +23,8 @@ public class SecurityConfig {
     @Autowired
     private RedisSessionAuthenticationFilter redisSessionAuthenticationFilter;
 
-
-//    @Bean
-//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-//        return http
-//                .csrf().disable()
-//                .authorizeHttpRequests(
-//                        request->request
-//                                .requestMatchers("/product/add", "/user/login", "/user/signup", "/thirdparty")
-//                                .authenticated()
-//                                .anyRequest().authenticated()
-//                )
-//                .exceptionHandling().authenticationEntryPoint(point)
-//                .and()
-//                .addFilterBefore(redisSessionAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-//                .build();
-//    }
+    @Autowired
+    private JwtAuthenticationFilter jwtAuthenticationFilter;
 
 
 
@@ -47,26 +33,13 @@ public class SecurityConfig {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .requestMatchers("/product/add", "/user/login", "/user/signup", "/thirdparty").permitAll()
+                .requestMatchers("/product/add", "/user/login", "/user/signup",
+                        "/thirdparty","mail/otp**","otp/verify**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .exceptionHandling().authenticationEntryPoint(point)
                 .and()
-                .addFilterBefore(redisSessionAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
-
-//    @Bean
-//    public CorsConfigurationSource corsConfigurationSource() {
-//        CorsConfiguration configuration = new CorsConfiguration();
-//        configuration.setAllowCredentials(true); // Set to true if credentials are needed
-//        configuration.addAllowedOrigin(configParam.frontendEndpoint); // Exact origin
-//        configuration.addAllowedHeader("*");
-//        configuration.addAllowedMethod("*");
-//
-//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-//        source.registerCorsConfiguration("/**", configuration);
-//        return source;
-//    }
-
 }

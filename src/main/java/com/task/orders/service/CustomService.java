@@ -14,8 +14,6 @@ import org.springframework.stereotype.Component;
 public class CustomService implements UserDetailsService {
 
     @Autowired
-    private PasswordEncoder passwordEncoder;
-    @Autowired
     private UserRepo userRepo;
 
     @Override
@@ -24,10 +22,10 @@ public class CustomService implements UserDetailsService {
         if (userData == null) {
             throw new UsernameNotFoundException("User not found ");
         } else {
-            String encodedPassword = passwordEncoder.encode(userData.getId().toString());
+
             return User
                     .withUsername(userData.getEmail())
-                    .password(encodedPassword)
+                    .password(userData.getPassword())
                     .roles("USER")
                     .build();
         }

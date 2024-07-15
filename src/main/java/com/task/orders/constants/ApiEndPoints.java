@@ -12,7 +12,7 @@ public class ApiEndPoints {
     public static final String DELETE_PRODUCTS = "/delete/products";
     public static final String SUMMARY = "/summary";
     public static final String PATH_ID = "id";
-    public static final String VERIFY_OTP = "/verify/{otp}";
+    public static final String VERIFY_OTP = "/verify";
     public static final String THIRDPARTY = "/thirdparty";
     public static final String USER = "/user";
     public static final String SIGNUP = "/signup";
