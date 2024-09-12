@@ -1,7 +1,5 @@
 package com.task.orders.helpers;
 
-import com.task.orders.constants.Constants;
-import com.task.orders.redis.RedisHelper;
 import org.springframework.stereotype.Component;
 
 import java.util.Base64;

@@ -17,6 +17,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.cache.annotation.Cacheable;
+
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -50,7 +52,7 @@ public class OrderDataService implements OrderDataInterface {
         entity.setOrderId(orderId);
         entity.setOrderData(orderId + orderDetails.getProductId());
         entity.setUserId(userEntity);
-        entity.setProductId(
+        entity.setProductsEntity(
                 isValidProduct(UUID.fromString(orderDetails.getProductId())));
         entity.setQuantity(orderDetails.getQuantity());
         return entity;
@@ -123,19 +125,19 @@ public class OrderDataService implements OrderDataInterface {
         for (OrderDataEntity orderData : data) {
             UUID orderId = orderData.getOrderId();
             OrderData orderDataDto = new OrderData(
-                    orderData.getProductId().getId().toString(),
-                    orderData.getProductId().getName(),
+                    orderData.getProductsEntity().getId().toString(),
+                    orderData.getProductsEntity().getName(),
                     orderData.getQuantity()
             );
             orderMaps.compute(orderId, (key, value) -> {
                 if (value == null) {
                     List<OrderData> orderDataList = new ArrayList<>();
                     orderDataList.add(orderDataDto);
-                    AtomicInteger price = new AtomicInteger(orderData.getQuantity() * orderData.getProductId().getPrice());
+                    AtomicInteger price = new AtomicInteger(orderData.getQuantity() * orderData.getProductsEntity().getPrice());
                     return Pair.of(orderDataList, price);
                 } else {
                     value.getFirst().add(orderDataDto);
-                    value.getSecond().addAndGet(orderData.getQuantity() * orderData.getProductId().getPrice());
+                    value.getSecond().addAndGet(orderData.getQuantity() * orderData.getProductsEntity().getPrice());
                     return value;
                 }
             });
@@ -177,6 +179,7 @@ public class OrderDataService implements OrderDataInterface {
         return orders;
     }
 
+    @Cacheable(value = "OrderDataOf_'orderId",key="#orderId",cacheManager = "oneDayCacheManager",unless = "#result==null")
     @Override
     public OrderResponse getOrder(UUID orderId) {
         AtomicInteger price = new AtomicInteger();
@@ -185,14 +188,13 @@ public class OrderDataService implements OrderDataInterface {
             throw new CommonException(VALID, Messages.ORDER_NOT_FOUND, StatusCodes.SUCCESS);
         }
         var pData = data.stream().map(orderData -> {
-                    price.addAndGet(orderData.getQuantity() * orderData.getProductId().getPrice());
+                    price.addAndGet(orderData.getQuantity() * orderData.getProductsEntity().getPrice());
                     return new OrderData(
-                            orderData.getProductId().getId().toString(),
-                            orderData.getProductId().getName(),
+                            orderData.getProductsEntity(),
                             orderData.getQuantity());
                 }
         ).toList();
-        return new OrderResponse(orderId, pData, price.intValue());
+        return new OrderResponse(orderId, pData, price.intValue(), VALID,Messages.SUCCESS);
     }
 
     private OrderDataEntity addOrUpdateHelper(OrderData orderData, String orderId, UUID userId) {

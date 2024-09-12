@@ -3,17 +3,18 @@ package com.task.orders.helpers;
 import com.task.orders.constants.Constants;
 import com.task.orders.entity.UserEntity;
 import com.task.orders.jwt.JwtHelper;
-import com.task.orders.redis.RedisHelper;
+import com.task.orders.cache_Redis.RedisHelper;
 import com.task.orders.service.CustomService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 
 import java.security.SecureRandom;
+import java.util.UUID;
 
 import static com.task.orders.constants.Constants.*;
 import static com.task.orders.helpers.Crypto.encrypt;
@@ -36,10 +37,10 @@ public class HelperFunctions {
         return otp.toString();
     }
 
+    @CachePut(key = Constants.REDIS_KEY+"#id",value = "#result",cacheManager = "oneDayCacheManager")
     public static String generateRedisToken(String id, String email, String name, RedisHelper redisHelper) {
-        var key= encrypt(id+"//"+email+"//"+name);
-        redisHelper.set(Constants.REDIS_KEY+id,key);
-        return key;
+        //        redisHelper.set(Constants.REDIS_KEY+id,key);
+        return encrypt(id+"//"+email+"//"+name);
     }
 
     public static String maskMobile(String mobileNumber){
@@ -47,7 +48,8 @@ public class HelperFunctions {
         return mobileNumber.replace(mid, MASK);
     }
 
-    public String generateJWTToken(UserEntity data){
+    @CachePut(key = "#id",value = "#result",cacheManager = "oneDayCacheManager")
+    public String generateJWTToken(UUID id, UserEntity data){
         try {
 //            //validating email and password
 //            UsernamePasswordAuthenticationToken auth=new UsernamePasswordAuthenticationToken(email,password);

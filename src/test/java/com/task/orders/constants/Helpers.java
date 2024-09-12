@@ -46,7 +46,7 @@ public class Helpers extends MockitoAnnotations {
     public static OrderDataEntity orderData(){
         var s=new OrderDataEntity();
         s.setId(UUID.fromString(TestConstants.ORDER_ID));
-        s.setProductId(setProducts());
+        s.setProductsEntity(setProducts());
         s.setQuantity(1);
         return s;
     }

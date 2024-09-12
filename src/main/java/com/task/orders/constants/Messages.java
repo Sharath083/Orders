@@ -1,6 +1,7 @@
 package com.task.orders.constants;
 
 public class Messages {
+    public static final String SUCCESS = "Success";
     public static final String ORDER_PLACED_SUCCESSFULLY = "Order Placed Successfully.Order Id: ";
     public static final String ORDER_UPDATED_SUCCESSFULLY = "Order Updated Successfully";
     public static final String INVALID_REQUEST = "Invalid request";

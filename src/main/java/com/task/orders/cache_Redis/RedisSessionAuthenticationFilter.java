@@ -1,5 +1,5 @@
 
-package com.task.orders.redis;
+package com.task.orders.cache_Redis;
 
 import com.task.orders.constants.InfoId;
 import com.task.orders.constants.Messages;
@@ -26,7 +26,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 import java.util.Objects;
 
-@Component
+//@Component
 public class RedisSessionAuthenticationFilter extends OncePerRequestFilter {
 
     @Autowired

@@ -4,10 +4,8 @@ import com.task.orders.config.ConfigParam;
 import com.task.orders.constants.Messages;
 import com.task.orders.constants.StatusCodes;
 import com.task.orders.dto.BaseResponse;
-import com.task.orders.entity.OtpEntity;
 import com.task.orders.exception.CommonException;
 import com.task.orders.helpers.HelperFunctions;
-import com.task.orders.redis.RedisHelper;
 import com.task.orders.repository.OtpRepo;
 import com.task.orders.service.impl.otp.OtpService;
 import com.task.orders.service.impl.pdf.PdfGenerator;
@@ -23,7 +21,6 @@ import org.springframework.stereotype.Service;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.net.MalformedURLException;
-import java.util.Optional;
 import java.util.UUID;
 
 import static com.task.orders.constants.Constants.*;

@@ -1,7 +1,7 @@
 package com.task.orders.config;
 
 import com.task.orders.exception.ExceptionAuthenticationEntryPoint;
-import com.task.orders.redis.RedisSessionAuthenticationFilter;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,13 +18,10 @@ public class SecurityConfig {
     @Autowired
     ConfigParam configParam;
     @Autowired
-    private ExceptionAuthenticationEntryPoint point;
+    ExceptionAuthenticationEntryPoint point;
 
     @Autowired
-    private RedisSessionAuthenticationFilter redisSessionAuthenticationFilter;
-
-    @Autowired
-    private JwtAuthenticationFilter jwtAuthenticationFilter;
+    JwtAuthenticationFilter jwtAuthenticationFilter;
 
 
 

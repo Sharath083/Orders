@@ -1,11 +1,12 @@
 package com.task.orders.controller;
 
+import com.task.orders.config.JwtAuthenticationFilter;
 import com.task.orders.constants.ApiEndPoints;
 import com.task.orders.dto.BaseResponse;
 import com.task.orders.dto.OrderRequest;
 import com.task.orders.dto.OrderResponse;
 import com.task.orders.exception.CommonException;
-import com.task.orders.redis.RedisSessionAuthenticationFilter;
+import com.task.orders.cache_Redis.RedisSessionAuthenticationFilter;
 import com.task.orders.repository.OrderRepo;
 import com.task.orders.repository.ProductsRepo;
 import com.task.orders.repository.UserRepo;
@@ -36,20 +37,20 @@ public class OrderController {
     OrderDetailsDao orderDetailsDao;
     @Autowired
     OrderDataInterface orderDataInterface;
-    @Autowired
-    RedisSessionAuthenticationFilter redisSessionAuthenticationFilter;
+//    @Autowired
+//    RedisSessionAuthenticationFilter redisSessionAuthenticationFilter;
 
 
     @PostMapping
     public BaseResponse createOrder(@RequestBody OrderRequest order) throws CommonException {
-        String d = redisSessionAuthenticationFilter.getUserData().getUserId();
+        String d = JwtAuthenticationFilter.getSessionData().getUserId();
         final UUID userId = UUID.fromString(d);
         return orderDataInterface.createOrder(order, userId);
     }
 
     @PostMapping(ApiEndPoints.UPDATE)
     public BaseResponse updateOrder(@RequestParam String type, @RequestBody OrderRequest order) throws CommonException {
-        String d = redisSessionAuthenticationFilter.getUserData().getUserId();
+        String d = JwtAuthenticationFilter.getSessionData().getUserId();
         final UUID userId = UUID.fromString(d);
         return orderDataInterface.updateOrders(order, type, userId);
     }
@@ -70,10 +71,9 @@ public class OrderController {
         return orderDataInterface.deleteProductFromOrder(orderRequest);
     }
 
-
     @GetMapping(ApiEndPoints.SUMMARY)
     public ResponseEntity<List<OrderResponse>> getSummary() {
-        String d = redisSessionAuthenticationFilter.getUserData().getUserId();
+        String d = JwtAuthenticationFilter.getSessionData().getUserId();
         final UUID userId = UUID.fromString(d);
         return ResponseEntity.ok(orderDataInterface.getAllOrders(userId));
     }

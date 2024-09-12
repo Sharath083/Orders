@@ -11,6 +11,7 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,16 +30,19 @@ import java.io.IOException;
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final Logger logger = LoggerFactory.getLogger(OncePerRequestFilter.class);
     @Autowired
-    private JwtHelper jwtHelper;
+    JwtHelper jwtHelper;
     @Autowired
-    private CustomService userService;
+    CustomService userService;
+
     public static String token=null;
+    @Getter
     private static SessionData sessionData=null;
 
     @Override
     public void doFilterInternal(HttpServletRequest request, @NotNull HttpServletResponse response, @NotNull FilterChain filterChain) throws ServletException, IOException {
         String requestHeader = request.getHeader("Authorization");
         String username = null;
+        System.out.println(requestHeader+" ----------------------------");
         if (requestHeader != null && requestHeader.startsWith("Bearer ")) {
             token = requestHeader.substring(7);
             try {
@@ -68,9 +72,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             }
         }
         filterChain.doFilter(request, response);
-    }
-    public static SessionData getSessionData() {
-        return sessionData;
     }
 
 

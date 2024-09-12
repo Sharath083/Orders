@@ -14,5 +14,4 @@ public class ApiRequest {
     private HttpMethod httpMethod;
     private HashMap<String,String> headers;
     private String url;
-    // Add other fields as necessary
 }

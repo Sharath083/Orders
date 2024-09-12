@@ -20,7 +20,7 @@ import java.util.function.Function;
 public class JwtHelper {
     static Gson gson = new Gson();
 
-    public static final long JWT_TOKEN_VALIDITY = 24*60*60*1000 ;
+    public static final long JWT_TOKEN_VALIDITY = 24*24*60*60*1000 ;
     private final static String secret = "afafasfafafasfasfasfafacasdasfasxASFACASDFACASDFASFASFDAFASFASDAADSCSDFADCVSGCFVADXCcadwavfsfarvf";
 
     public SessionData getUsernameFromToken(String token) {
@@ -71,8 +71,6 @@ public class JwtHelper {
     }
     public Boolean validateToken(String token, UserDetails userDetails) {
         final String userMail = getUsernameFromToken(token).getEmail();
-        System.out.println(userMail +"-----userMai "+userDetails.getUsername() + "-----");
-        System.out.println(userMail+" --------------------------------");
         if(isTokenExpired(token)){
             throw new CommonException("0001","Session has expired,please login again");
         }

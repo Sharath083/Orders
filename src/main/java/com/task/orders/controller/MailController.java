@@ -3,9 +3,8 @@ package com.task.orders.controller;
 import com.task.orders.config.JwtAuthenticationFilter;
 import com.task.orders.constants.ApiEndPoints;
 import com.task.orders.dto.BaseResponse;
-import com.task.orders.jwt.JwtHelper;
 import com.task.orders.service.impl.mail.EmailGenerator;
-import com.task.orders.redis.RedisSessionAuthenticationFilter;
+import com.task.orders.cache_Redis.RedisSessionAuthenticationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,8 +17,8 @@ import java.util.UUID;
 public class MailController {
     @Autowired
     EmailGenerator emailGenerator;
-    @Autowired
-    RedisSessionAuthenticationFilter redisSessionAuthenticationFilter;
+//    @Autowired
+//    RedisSessionAuthenticationFilter redisSessionAuthenticationFilter;
 
 
 

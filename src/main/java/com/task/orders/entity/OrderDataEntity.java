@@ -24,7 +24,7 @@ public class OrderDataEntity {
 
     @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @JoinColumn(name = TableConstants.PRODUCT_ID,referencedColumnName = TableConstants.ID)
-    private ProductsEntity productId;
+    private ProductsEntity productsEntity;
 
     private String orderData;
 

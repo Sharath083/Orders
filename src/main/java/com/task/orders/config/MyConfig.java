@@ -3,7 +3,7 @@ package com.task.orders.config;
 
 
 import com.task.orders.constants.Constants;
-import com.task.orders.redis.RedisHelper;
+import com.task.orders.cache_Redis.RedisHelper;
 
 
 import com.task.orders.service.CustomService;
@@ -16,7 +16,6 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;

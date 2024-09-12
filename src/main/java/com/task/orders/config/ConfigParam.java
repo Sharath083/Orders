@@ -10,7 +10,6 @@ import org.springframework.context.annotation.Configuration;
 @Getter
 public class ConfigParam {
 
-
     @Value(Constants.API_URL)
     private String apiUrl;
     @Value(Constants.API_BASE_URL)

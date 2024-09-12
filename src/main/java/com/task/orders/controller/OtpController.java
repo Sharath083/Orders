@@ -4,7 +4,7 @@ import com.task.orders.config.JwtAuthenticationFilter;
 import com.task.orders.constants.ApiEndPoints;
 import com.task.orders.dto.BaseResponse;
 import com.task.orders.service.impl.otp.OtpService;
-import com.task.orders.redis.RedisSessionAuthenticationFilter;
+import com.task.orders.cache_Redis.RedisSessionAuthenticationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,8 +17,8 @@ import java.util.UUID;
 public class OtpController {
     @Autowired
     OtpService otpService;
-    @Autowired
-    RedisSessionAuthenticationFilter redisSessionAuthenticationFilter;
+//    @Autowired
+//    RedisSessionAuthenticationFilter redisSessionAuthenticationFilter;
 
     @GetMapping(ApiEndPoints.SEND)
     public ResponseEntity<BaseResponse> sendOtp() {
